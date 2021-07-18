@@ -43,7 +43,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       const amountUpdated = amount + 1;
 
       if (amount > currentAmount) {
-        toast.error("Não possui essa quantidade no estoque");
+        toast.error("Quantidade solicitada fora de estoque");
         return;
       }
 
@@ -62,15 +62,17 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       setCart([...updatedCart]);
       localStorage.setItem("@Rocketseat:cart", JSON.stringify(updatedCart));
     } catch {
-      console.error("error");
+      toast.error("Erro na adição do produto");
     }
   };
 
   const removeProduct = (productId: number) => {
     try {
-      // TODO
+      const cartUpdated = cart.filter((product) => product.id !== productId);
+      setCart([...cartUpdated]);
+      localStorage.setItem("@Rocketseat:cart", JSON.stringify(cartUpdated));
     } catch {
-      // TODO
+      toast.error("Erro na remoção do produto");
     }
   };
 
@@ -79,9 +81,18 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     amount,
   }: UpdateProductAmount) => {
     try {
-      // TODO
+      const cartUpdated = cart.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              amount: amount,
+            }
+          : product
+      );
+
+      setCart([...cartUpdated]);
     } catch {
-      // TODO
+      toast.error("Erro na alteração de quantidade do produto");
     }
   };
 
