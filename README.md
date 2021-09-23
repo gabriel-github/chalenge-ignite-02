@@ -1,5 +1,5 @@
 
-# challenge-ignite-02
+# rocketshoes
 
 this project approached this principals concepts of react.js make me master the framework.
 
